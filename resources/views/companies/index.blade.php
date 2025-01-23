@@ -28,7 +28,7 @@
                             @endforeach
                         </ul>
                     @else
-		                    <!-- Sibling Categories Widget. -->
+		                    <!-- Sibling Categories Widget -->
 		                    @if($siblingCategories->isNotEmpty())
 		                        <div class="mt-6">
 		                            <h3 class="font-semibold text-lg mb-4">Sibling Categories</h3>

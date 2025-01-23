@@ -10,14 +10,14 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="space-y-6">
-                        <!-- Company Description -->
+                        <!-- Company  Description -->
                         <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
                             <p class="text-gray-600 dark:text-gray-300">
                                 {{ $company->com_description }}
                             </p>
                         </div>
 
-                        <!-- Grouped Categories Section -->
+                        <!-- Grouped Categories  Section -->
                         <div class="mt-4">
                             <h3 class="text-lg font-semibold mb-4">Categorías</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
