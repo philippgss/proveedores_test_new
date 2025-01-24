@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Category;
-use Illuminate\Http\Request;
+use App\Services\CompanySearchService;
 
 class CompaniesController extends Controller
 {
 		public function index(Request $request, $param1 = null, $param2 = null)
-		{
+				{
 		    // Existing logic to determine if we're handling a category or just pagination
 		    $isCategoryRoute = $request->route()->named('companies.category.*');
 		    
@@ -70,19 +71,27 @@ class CompaniesController extends Controller
 		    ]);
 		}
 
-    private function getAllDescendantCategoryIds(Category $category)
-    {
-        return $category->descendants->flatMap(function ($descendant) {
-            return [$descendant->id, ...$this->getAllDescendantCategoryIds($descendant)];
-        })->toArray();
-    }
+		private function getAllDescendantCategoryIds(Category $category)
+		{
+			return $category->descendants->flatMap(function ($descendant) {
+				return [$descendant->id, ...$this->getAllDescendantCategoryIds($descendant)];
+			})->toArray();
+		}
 
-    private function getPaginationBasePath(Request $request)
-    {
-        if ($request->route()->named('companies.category.*')) {
-            $categorySlug = $request->route()->parameter('category');
-            return "/{$categorySlug}";
-        }
-        return '/proveedores';
-    }
+		private function getPaginationBasePath(Request $request)
+		{
+			if ($request->route()->named('companies.category.*')) {
+				$categorySlug = $request->route()->parameter('category');
+				return "/{$categorySlug}";
+			}
+			return '/proveedores';
+		}
+
+		public function search(Request $request)
+		{
+			$query = $request->input('query');
+			$companies = app(CompanySearchService::class)->search($query);
+			return view('companies.index', ['companies' => $companies]);
+		}
+			
 }
