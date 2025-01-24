@@ -1,25 +1,16 @@
 <IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
     RewriteEngine On
 
-    # Force trailing slash for /proveedores
+    # Specific rule for /proveedores to add trailing slash if missing
     RewriteCond %{REQUEST_URI} ^/proveedores$
-    RewriteRule ^(proveedores)$ /$1/ [L,R=301]
+    RewriteRule ^(.*)$ /$1/ [L,R=301]
 
-    # Handle Authorization Header
-    RewriteCond %{HTTP:Authorization} .
-    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+    # Redirect first-level directories without trailing slash to with trailing slash
+    RewriteCond %{REQUEST_URI} ^/([^/]+)$
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^(.*)$ /$1/ [L,R=301]
 
-    # Redirect Trailing Slashes If Not A Folder and Not /proveedores/...
-    RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteCond %{REQUEST_URI} (.+)/$
-    RewriteCond %{REQUEST_URI} !^/proveedores/$
-    RewriteRule ^ %1 [L,R=301]
-
-    # Send Requests To Front Controller...
+    # Laravel's default .htaccess rules
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
