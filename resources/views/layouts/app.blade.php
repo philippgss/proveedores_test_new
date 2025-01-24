@@ -23,6 +23,11 @@
                 <header class="bg-white dark:bg-gray-800 shadow">
                     <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
+                        <!-- Search form here -->
+                        <form action="{{ route('companies.search') }}" method="GET" class="mt-4">
+                            <input type="text" name="query" placeholder="Search companies..." required class="px-4 py-2 border rounded">
+                            <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded">Search</button>
+                        </form>                        
                     </div>
                 </header>
             @endisset

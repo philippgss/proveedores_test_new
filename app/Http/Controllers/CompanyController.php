@@ -65,5 +65,5 @@ class CompanyController extends Controller
 		        $descendants = array_merge($descendants, $this->flattenDescendants($descendant));
 		    }
 		    return $descendants;
-		}
+		}	
 }

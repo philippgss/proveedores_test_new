@@ -5,7 +5,7 @@ use App\Http\Controllers\CompaniesController;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CompanyController;
-//use App\Http\Controllers\CategoryController;
+
 
 Route::get('/', [WelcomeController::class, 'index']);
 
@@ -30,6 +30,9 @@ Route::get('/{category}-{page}/', [CompaniesController::class, 'index'])
     ->where('category', '^(?!proveedores$)[a-z0-9-]+$')
     ->whereNumber('page')
     ->name('companies.category.paged');
+
+// Search result route
+Route::get('/search', [CompaniesController::class, 'search'])->name('companies.search');
 
 // Auth routes
 Route::middleware('auth')->group(function () {
