@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
 		    Paginator::useTailwind();
 		    
 		    // Override with your custom Tailwind template
-    		Paginator::defaultView('vendor.pagination.custom-tailwind');
+    		//Paginator::defaultView('vendor.pagination.custom-tailwind');
 		    
 		    // For Bootstrap 5:
 		    //Paginator::useBootstrapFive();

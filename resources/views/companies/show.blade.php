@@ -23,54 +23,54 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                 @foreach ($groupedCategories as $group)
                                     <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
-																				<h4 class="text-md font-semibold mb-2">
-																				    <a href="{{ route('companies.category.index', ['category' => $group['parent']->slug]) }}" class="hover:text-blue-600">
-																				        {{ $group['parent']->name }}
-																				    </a>
-																				</h4>
+                                        <h4 class="text-md font-semibold mb-2">
+                                            <a href="{{ route('companies.category.index', ['category' => $group['parent']->slug]) }}/" class="hover:text-blue-600">
+                                                {{ $group['parent']->name }}
+                                            </a>
+                                        </h4>
 
 
 
-																				@php
-																				    $maxVisibleCategories = 10; // Define the number here
-																				@endphp
+                                        @php
+                                            $maxVisibleCategories = 10; // Define the number here
+                                        @endphp
 
-																				<div x-data="{ showMore: false }" class="flex flex-wrap gap-2">
-																				    <!-- Display the first N categories -->
-																				    @foreach (array_slice($group['children'], 0, $maxVisibleCategories) as $child)
-																				        <a href="{{ route('companies.category.index', ['category' => $child->slug]) }}" 
-																				           class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
-																				            {{ $child->name }}
-																				        </a>
-																				    @endforeach
+                                        <div x-data="{ showMore: false }" class="flex flex-wrap gap-2">
+                                            <!-- Display the first N categories -->
+                                            @foreach (array_slice($group['children'], 0, $maxVisibleCategories) as $child)
+                                                <a href="{{ route('companies.category.index', ['category' => $child->slug]) }}/" 
+                                                    class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
+                                                    {{ $child->name }}
+                                                </a>
+                                            @endforeach
 
-																				    <!-- Hidden extra categories -->
-																				    @if (count($group['children']) > $maxVisibleCategories)
-																				        <div x-show="showMore" class="flex flex-wrap gap-2">
-																				            @foreach (array_slice($group['children'], $maxVisibleCategories) as $child)
-																				                <a href="{{ route('companies.category.index', ['category' => $child->slug]) }}" 
-																				                   class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
-																				                    {{ $child->name }}
-																				                </a>
-																				            @endforeach
-																				        </div>
+                                            <!-- Hidden extra categories -->
+                                            @if (count($group['children']) > $maxVisibleCategories)
+                                                <div x-show="showMore" class="flex flex-wrap gap-2">
+                                                    @foreach (array_slice($group['children'], $maxVisibleCategories) as $child)
+                                                        <a href="{{ route('companies.category.index', ['category' => $child->slug]) }}/" 
+                                                            class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
+                                                            {{ $child->name }}
+                                                        </a>
+                                                    @endforeach
+                                                </div>
 
-																				        <!-- "Show More" Button with Distinct Styling -->
-																				        <button @click="showMore = !showMore" 
-																				                class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm transition-all duration-200 hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-800 dark:hover:text-green-100">
-																				            <span x-text="showMore ? 'Show Less' : 'Show More'"></span>
-																				        </button>
-																				    @endif
-																				</div>
+                                                <!-- "Show More" Button with Distinct Styling -->
+                                                <button @click="showMore = !showMore" 
+                                                        class="px-3 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-full text-sm transition-all duration-200 hover:bg-green-200 hover:text-green-900 dark:hover:bg-green-800 dark:hover:text-green-100">
+                                                    <span x-text="showMore ? 'Show Less' : 'Show More'"></span>
+                                                </button>
+                                            @endif
+                                        </div>
 
 
 																				
                                         {{--
                                         <div class="flex flex-wrap gap-2">
                                             @foreach (array_slice($group['children'], 0, 3) as $child)
-																								<a href="{{ route('companies.category.index', ['category' => $child->slug]) }}" class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
-																								    {{ $child->name }}
-																								</a>
+                                                <a href="{{ route('companies.category.index', ['category' => $child->slug]) }}/" class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
+                                                    {{ $child->name }}
+                                                </a>
                                             @endforeach
                                         </div>
                                         --}}

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Company;
 use App\Models\Category;
 use App\Services\CompanySearchService;
+use App\Services\CategoryService;
 
 class CompaniesController extends Controller
 {
@@ -50,7 +51,7 @@ class CompaniesController extends Controller
 
 		    // Apply category filtering if needed
 		    if ($isCategoryRoute) {
-		        $categoryIds = $this->getAllDescendantCategoryIds($currentCategory);
+		        $categoryIds = app(CategoryService::class)->getAllDescendantCategoryIds($currentCategory);
 		        $categoryIds[] = $currentCategory->id;
 
 		        $query->whereHas('categories', function($q) use ($categoryIds) {
@@ -71,18 +72,13 @@ class CompaniesController extends Controller
 		    ]);
 		}
 
-		private function getAllDescendantCategoryIds(Category $category)
-		{
-			return $category->descendants->flatMap(function ($descendant) {
-				return [$descendant->id, ...$this->getAllDescendantCategoryIds($descendant)];
-			})->toArray();
-		}
-
 		private function getPaginationBasePath(Request $request)
 		{
 			if ($request->route()->named('companies.category.*')) {
 				$categorySlug = $request->route()->parameter('category');
 				return "/{$categorySlug}";
+			} elseif ($request->route()->named('companies.search.paged')) {
+				return '/search';
 			}
 			return '/proveedores';
 		}
@@ -90,8 +86,44 @@ class CompaniesController extends Controller
 		public function search(Request $request)
 		{
 			$query = $request->input('query');
-			$companies = app(CompanySearchService::class)->search($query);
-			return view('companies.index', ['companies' => $companies]);
+			$page = $request->input('page', 1); // Get the page parameter from the query string (default to 1)
+			$perPage = $request->input('perPage', 18); // Default to 18 items per page
+			$categoryId = $request->input('category'); // Get the selected category ID
+		
+			// Fetch sidebar categories
+			$sidebarCategories = collect();
+			$siblingCategories = collect();
+		
+			if ($categoryId) {
+				// Fetch the selected category
+				$selectedCategory = \App\Models\Category::find($categoryId);
+				if ($selectedCategory) {
+					if ($selectedCategory->children->isNotEmpty()) {
+						// If the selected category has children, display them
+						$sidebarCategories = $selectedCategory->children;
+					} else {
+						// If it's a leaf category, fetch its siblings
+						if ($selectedCategory->parent_id) {
+							$siblingCategories = \App\Models\Category::where('parent_id', $selectedCategory->parent_id)
+								->where('id', '!=', $selectedCategory->id) // Exclude the current category
+								->get();
+						}
+					}
+				}
+			} else {
+				// Default to top-level categories if no category is selected
+				$sidebarCategories = \App\Models\Category::whereNull('parent_id')->get();
+			}
+		
+			// Filter companies by category if a category is selected
+			$companies = app(CompanySearchService::class)->search($query, $perPage, $page, $categoryId);
+		
+			return view('companies.index', [
+				'companies' => $companies,
+				'sidebarCategories' => $sidebarCategories,
+				'siblingCategories' => $siblingCategories,
+				'selectedCategory' => $categoryId, // Pass the selected category to the view
+			]);
 		}
-			
+
 }
