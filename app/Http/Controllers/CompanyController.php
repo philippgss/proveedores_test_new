@@ -11,17 +11,20 @@ class CompanyController extends Controller
 {
 		public function show($slug)
 		{
-		    $company = Company::where('slug', $slug)
-		        ->with('categories.descendants') // Fetch categories and their descendants
-		        ->firstOrFail();
-
-		    // Group categories by top-level parent
-		    $groupedCategories = $this->groupCategoriesByTopLevelParent($company->categories);
-
-		    return view('companies.show', [
-		        'company' => $company,
-		        'groupedCategories' => $groupedCategories,
-		    ]);
+			$company = Company::where('slug', $slug)
+				->with([
+					'categories.descendants', // Fetch categories and their descendants
+					'city.province.region.country', // Fetch city, province, region, and country
+				])
+				->firstOrFail();
+		
+			// Group categories by top-level parent
+			$groupedCategories = $this->groupCategoriesByTopLevelParent($company->categories);
+		
+			return view('companies.show', [
+				'company' => $company,
+				'groupedCategories' => $groupedCategories,
+			]);
 		}
 		
 		private function groupCategoriesByTopLevelParent($categories)

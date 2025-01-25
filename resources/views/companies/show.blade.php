@@ -10,14 +10,24 @@
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <div class="space-y-6">
-                        <!-- Company  Description -->
+                        <!-- Company Description -->
                         <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
                             <p class="text-gray-600 dark:text-gray-300">
                                 {{ $company->com_description }}
                             </p>
                         </div>
 
-                        <!-- Grouped Categories  Section -->
+                        <!-- Company Address -->
+                        <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-4">
+                            <h3 class="text-lg font-semibold mb-2">Dirección</h3>
+                            <p class="text-gray-600 dark:text-gray-300">
+                                {{ $company->street }}<br>
+                                {{ $company->postal_code }} {{ $company->city->name }}<br>
+                                {{ $company->city->province->name }}, {{ $company->country->name }}
+                            </p>
+                        </div>
+
+                        <!-- Grouped Categories Section -->
                         <div class="mt-4">
                             <h3 class="text-lg font-semibold mb-4">Categorías</h3>
                             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -28,8 +38,6 @@
                                                 {{ $group['parent']->name }}
                                             </a>
                                         </h4>
-
-
 
                                         @php
                                             $maxVisibleCategories = 10; // Define the number here
@@ -62,18 +70,6 @@
                                                 </button>
                                             @endif
                                         </div>
-
-
-																				
-                                        {{--
-                                        <div class="flex flex-wrap gap-2">
-                                            @foreach (array_slice($group['children'], 0, 3) as $child)
-                                                <a href="{{ route('companies.category.index', ['category' => $child->slug]) }}/" class="px-3 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 rounded-full text-sm transition-all duration-200 hover:bg-blue-200 hover:text-blue-900 dark:hover:bg-blue-800 dark:hover:text-blue-100">
-                                                    {{ $child->name }}
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                        --}}
                                     </div>
                                 @endforeach
                             </div>
