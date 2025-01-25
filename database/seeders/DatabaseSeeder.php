@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             CategorySeeder::class,
             CategoryCompanySeeder::class,
+            AddAddressToCompaniesSeeder::class,
         ]);
     }
 }
