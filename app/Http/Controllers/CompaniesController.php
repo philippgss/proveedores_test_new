@@ -26,7 +26,9 @@ class CompaniesController extends Controller
 		    // Initialize variables
 		    $currentCategory = null;
 		    $sidebarCategories = Category::whereNull('parent_id')->with('children')->get(); // Default to top-level categories
-		    $siblingCategories = collect(); // Initialize as empty collection
+		    $siblingCategories = collect(); // Initialize as empty
+			$sidebarGeo = collect();
+
 
 		    // If a category is selected
 		    if ($isCategoryRoute) {
@@ -69,6 +71,7 @@ class CompaniesController extends Controller
 		        'category' => $isCategoryRoute ? $currentCategory : null, // Pass the current category (if any)
 		        'sidebarCategories' => $sidebarCategories, // Pass categories for the sidebar (may be empty)
 		        'siblingCategories' => $siblingCategories, // Pass sibling categories for the new widget
+				'sidebarGeo' => $sidebarGeo,
 		    ]);
 		}
 
@@ -93,6 +96,7 @@ class CompaniesController extends Controller
 			// Fetch sidebar categories
 			$sidebarCategories = collect();
 			$siblingCategories = collect();
+			$sidebarGeo = collect();
 		
 			if ($categoryId) {
 				// Fetch the selected category
@@ -123,6 +127,7 @@ class CompaniesController extends Controller
 				'sidebarCategories' => $sidebarCategories,
 				'siblingCategories' => $siblingCategories,
 				'selectedCategory' => $categoryId, // Pass the selected category to the view
+				'sidebarGeo' => $sidebarGeo,
 			]);
 		}
 
