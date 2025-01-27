@@ -40,15 +40,7 @@ Route::get('/{term1}/{term2}', function ($term1, $term2) {
 })
 ->where('term1', '^(?!.*-\d+$)[a-z0-9-]+$')
 ->where('term2', '^(?!.*-\d+$)[a-z0-9-]+$')
-->name(function () use ($term2) {
-    // Dynamically assign route name based on term2
-    if (\App\Models\Province::where('slug', $term2)->exists()) {
-        return 'companies.categoryProvince.index';
-    } elseif (\App\Models\City::where('slug', $term2)->exists()) {
-        return 'companies.categoryCity.index';
-    }
-    return 'term.resolve';
-});
+->name('companies.category.location');
 
 // Single directory cases (domain/term)
 Route::get('/{term}', function ($term) {
@@ -56,24 +48,14 @@ Route::get('/{term}', function ($term) {
     if ($category = \App\Models\Category::where('slug', $term)->first()) {
         return app(CompaniesController::class)->index($term);
     } elseif ($province = \App\Models\Province::where('slug', $term)->first()) {
-        return app(ProvincesController::class)->index($term); // Replace with your province logic
+        return app(ProvincesController::class)->index($term);
     } elseif ($city = \App\Models\City::where('slug', $term)->first()) {
-        return app(CitiesController::class)->index($term); // Replace with your city logic
+        return app(CitiesController::class)->index($term);
     }
     abort(404); // Term not found in any table
 })
 ->where('term', '^(?!.*-\d+$)[a-z0-9-]+$')
-->name(function () use ($term) {
-    // Reuse the same order for route naming
-    if (\App\Models\Category::where('slug', $term)->exists()) {
-        return 'companies.category.index';
-    } elseif (\App\Models\Province::where('slug', $term)->exists()) {
-        return 'companies.province.index';
-    } elseif (\App\Models\City::where('slug', $term)->exists()) {
-        return 'companies.city.index';
-    }
-    return 'term.resolve';
-});
+->name('term.resolve');
 
 // Auth routes
 Route::middleware('auth')->group(function () {
