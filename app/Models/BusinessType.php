@@ -1,18 +1,42 @@
 <?php
 
-// app/Models/BusinessType.php
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
 class BusinessType extends Model
 {
-    protected $fillable = ['name', 'slug', 'category_type'];
-}
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'name',
+        'slug',
+        'category_type'
+    ];
 
-// app/Models/CategoryType.php
-class CategoryType extends Model
-{
-    protected $fillable = ['category_id', 'type'];
-
-    public function category()
+    /**
+     * Get the companies that belong to this business type.
+     * Defines the many-to-many relationship with Company model
+     */
+    public function companies()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsToMany(Company::class);
+    }
+
+    /**
+     * Boot function to handle slug generation
+     */
+    protected static function boot()
+    {
+        parent::boot();
+        
+        static::creating(function ($businessType) {
+            if (!$businessType->slug) {
+                $businessType->slug = Str::slug($businessType->name);
+            }
+        });
     }
 }

@@ -34,6 +34,11 @@ class Category extends Model
     {
         return $this->hasMany(Category::class, 'parent_id');
     }    
-    
+
+    // app/Models/Category.php
+    public function categoryType()
+    {
+        return $this->hasOne(CategoryType::class);
+    }
 
 }

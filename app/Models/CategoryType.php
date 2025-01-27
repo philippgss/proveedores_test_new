@@ -18,8 +18,6 @@ class CategoryType extends Model
 
     /**
      * The possible types of categories.
-     *
-     * @var array
      */
     public const TYPES = [
         'product',

@@ -29,4 +29,9 @@ class Company extends Model
         return $this->belongsTo(Country::class);
     }
 
+    public function businessTypes()
+    {
+        return $this->belongsToMany(BusinessType::class);
+    }
+
 }
