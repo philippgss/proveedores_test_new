@@ -18,21 +18,24 @@ class CreateBusinessTypesTable extends Migration
             $table->id();
             $table->string('name'); // Business type name
             $table->string('slug')->unique(); // Slug for URLs
+            $table->string('category_type'); // New column for category type
             $table->timestamps(); // Created at and updated at timestamps
         });
 
         // Prefill the table with data
         $businessTypes = [
-            'Distribuidores mayoristas',
-            'Dropshipping',
-            'Exportadores',
-            'Fabricantes',
+            'Distribuidores mayoristas' => 'product',
+            'Dropshipping' => 'product',
+            'Exportadores' => 'product',
+            'Fabricantes' => 'product',
+            'Servicios' => 'service',
         ];
 
-        foreach ($businessTypes as $type) {
+        foreach ($businessTypes as $name => $type) {
             DB::table('business_types')->insert([
-                'name' => $type,
-                'slug' => Str::slug($type), // Generate slug from name
+                'name' => $name,
+                'slug' => Str::slug($name),
+                'category_type' => $type,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
