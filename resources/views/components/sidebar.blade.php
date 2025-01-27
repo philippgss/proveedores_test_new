@@ -23,18 +23,6 @@
                        class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 {{ $selectedCategory == $sidebarCategory->id ? 'font-bold' : '' }}">
                         {{ $sidebarCategory->name }}
                     </a>
-                    @if($selectedCategory == $sidebarCategory->id)
-                        <ul class="ml-4 mt-2 space-y-2">
-                            @foreach($sidebarCategory->children as $child)
-                                <li>
-                                    <a href="{{ $isSearchPage ? route('companies.search', ['query' => request('query'), 'category' => $child->id]) : route('companies.category.index', ['category' => $child->slug]) }}" 
-                                       class="text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-600 {{ $selectedCategory == $child->id ? 'font-bold' : '' }}">
-                                        {{ $child->name }}
-                                    </a>
-                                </li>
-                            @endforeach
-                        </ul>
-                    @endif
                 </li>
             @endforeach
         </ul>
