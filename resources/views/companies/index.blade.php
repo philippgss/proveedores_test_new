@@ -15,8 +15,9 @@
             <div class="flex flex-col lg:flex-row gap-8">
                 
                 <!-- Sidebar -->
+{{--
                 <x-sidebar :sidebarCategories="$sidebarCategories" :siblingCategories="$siblingCategories" :sidebarGeo="$sidebarGeo"  />
-
+--}}
                 <!-- Main Content -->
                 <div class="w-full lg:w-3/4 bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900 dark:text-gray-100">
