@@ -10,12 +10,10 @@ use App\Http\Controllers\CompanyController;
 Route::get('/', [WelcomeController::class, 'index']);
 
 // Companies routes
-Route::get('/proveedores/', [CompaniesController::class, 'index'])
+Route::get('/proveedores', [CompaniesController::class, 'index'])
 		->name('companies.index');
 			
-Route::get('/proveedores-{page}', [CompaniesController::class, 'index'])
-    ->name('companies.index.paged')
-    ->whereNumber('page');
+
 
 // Search results route
 Route::get('/search', [CompaniesController::class, 'search'])->name('companies.search');   
@@ -26,14 +24,11 @@ Route::get('/proveedores/{slug}/', [CompanyController::class, 'show'])
 		->name('company.show');
 
 // Companies Category routes
-Route::get('/{category}/', [CompaniesController::class, 'index'])
+Route::get('/{category}', [CompaniesController::class, 'index'])
     ->where('category', '^(?!.*-\d+$)[a-z0-9-]+$')  // Won't match if ends with -number
     ->name('companies.category.index');
 
-Route::get('/{category}-{page}', [CompaniesController::class, 'index'])
-    ->where('category', '^(?!proveedores$)[a-z0-9-]+$')
-    ->whereNumber('page')
-    ->name('companies.category.paged');
+
 
 
 
