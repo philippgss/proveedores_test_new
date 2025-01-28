@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str; // Add this import for Str::slug
 
 class BusinessType extends Model
 {
